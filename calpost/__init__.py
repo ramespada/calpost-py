@@ -95,8 +95,7 @@ class CalpuffOutput:
         print(f"      Number of gridded    rec.: {self.ngrec} ")
         print(f"      Number of discrete   rec.: {self.ndrec} ")
         print(f"      Number of Cmpx Terr. rec.: {self.nctrec}")
-
-        print(f"      Number of receptor groups: {self.rgroups}")
+        #print(f"      Number of receptor groups: {self.rgroups}")
         #print(f"      Receptor groups          : {self.igrp}")
         print(f"")
         print(f"   Sources:")
@@ -121,7 +120,7 @@ class CalpuffOutput:
         elif ( self.ndrec > 0) :
             X = self.x; Y = self.y
 
-        elif ( self.nctr > 0 ):
+        elif ( self.nctrec > 0 ):
             X = self.x; Y = self.y
 
         return X, Y
@@ -270,7 +269,6 @@ class CalpuffOutput:
                             f.read(4)
                             ii = unpack("i", f.read(4))[0] #
                             f.read(4)
-                                                                                                            
                             f.read(4)
                             specie = f.read(15).decode("utf-8").split() 
                             raw = list(unpack(f'{ii}f', f.read(4*ii) ))
@@ -286,11 +284,18 @@ class CalpuffOutput:
                                 out[t,i] = tmp
                             f.read(4)
                     else:
-                        _skip_n_lines(f,1)
+                        if (self.is_compressed):
+                            _skip_n_lines(f, 2)
+                        else:
+                            _skip_n_lines(f, 1)
 
-                    ## ---    Discrete CTSG receptor concentrations
+                    ### ---    Discrete CTSG receptor concentrations
                     if ( self.nctrec > 0):
-                        _skip_n_lines(f,1) #self.ndrec+self.nctrec)
+                        if (self.is_compressed):
+                            _skip_n_lines(f, 2)
+                        else:
+                            _skip_n_lines(f, 1)
+
 
          return(out)
 
