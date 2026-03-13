@@ -1,20 +1,34 @@
 [project]
 name = "calpost"
 version = "0.0.0"
-description = "Post-procesor for CALPUF output files"
+description = "UNOFFICIAL CALPUFF and CALMET post-processor"
 readme = "README.md"
-requires-python = ">=3.7"
-license = {text = "MIT"}
-authors = [{ name="Ramiro Espada Guerrero", email="espada@agro.uba.ar" }
+requires-python = ">=3.9"
+license = { text = "MIT" }
+authors = [
+  { name = "Ramiro Espada Guerrero", email = "espada@agro.uba.ar" }
 ]
 dependencies = [
-  "numpy >= 1.21.0"
+  "numpy>=1.21.0",
+  "matplotlib>=3.5"
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.0",
+  "ruff>=0.11"
 ]
 
 [project.urls]
-Homepage = "https://github.com/ramespada/calpuff-post"
+Homepage = "https://github.com/ramespada/calpost-py"
 
 [build-system]
 requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+
+[tool.ruff]
+line-length = 100
